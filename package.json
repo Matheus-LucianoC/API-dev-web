@@ -1,13 +1,11 @@
-
-  {
+{
   "name": "api-dev-web-main",
   "version": "1.0.0",
-  "type": "module",
   "main": "server.js",
+  "type": "module",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node --watch server.js"
   },
-
   "dependencies": {
     "express": "^5.1.0",
     "init": "^0.1.2"
