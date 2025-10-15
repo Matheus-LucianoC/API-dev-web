@@ -24,12 +24,55 @@ app.get('/carros/:id', (req, res) => {
   const id = parseInt(req.params.id);
   const carro = carros.find(i => i.id === id);
   if (carro) {
-    res.json(carro);
+    res.json(carro + "<br>");
   } else {
     res.status(404).json({ error: 'Carro não encontrado.' });
   }
 });
 
+app.get('/carros/precomaiorque/:mQpreco', (req, res) => {
+  const mQpreco = parseInt(req.params.mQpreco);
+  let carrosfiltrados = []
+  for(let i = 0; i < carros.length; i++){
+    if(carros[i].preco > mQpreco){
+        carrosfiltrados.push(carros[i]);
+    }
+  }
+
+  if(carrosfiltrados.length > 0){
+    res.json(carrosfiltrados);
+  } else {
+    res.status(404).json({ error: 'Nenhum carro encontrado.' });
+  }
+
+});
+
+app.get('/carros', (req,res) => {
+  res.json({ total: carros.length, carros });
+});
+
+app.get('/carros/primeiro', (req, res) => {  
+  if (carros.length === 0) {
+    return res.status(404).json({ error: 'Nenhum carro cadastrado.' });
+  }
+  res.json(carros[0]);
+});
+
+app.get('/carros/ultimo', (req, res) => {  
+  if (carros.length === 0) {
+    return res.status(404).json({ error: 'Nenhum carro cadastrado.' });
+  }
+  res.json(carros[carros.length - 1]);
+});
+
+app.get('/carros/media', (req, res) => {  
+  const media = 0
+  for(let i = 0; i < carros.length; i++){
+  media = media + carros.preco
+  }
+  mediafinal = media / carros.length
+  res.json('Média dos preços: ' + mediafinal);
+});
 
 app.post('/carros', (req, res) => {
   const { marca, nome, modelo, preco } = req.body;
