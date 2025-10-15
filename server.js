@@ -96,6 +96,26 @@ app.post('/carros', (req, res) => {
   res.status(201).json(novoCarro);
 });
 
+app.post('/carros/lote', (req, res) => {
+  const novosCarros = req.body;
+
+  if (!Array.isArray(novosCarros)) {
+    return res.status(400).json({ error: 'Envie um array de carros.' });
+  }
+
+  novosCarros.forEach(carro => {
+    if (carro.marca && carro.nome && carro.modelo && carro.preco) {
+      carro.id = carros.length + 1;
+      carro.preco = parseInt(carro.preco);
+      carros.push(carro);
+    }
+  });
+
+  res.status(201).json({
+    mensagem: `${novosCarros.length} carro(s) adicionados com sucesso.`,
+    carros
+  });
+});
 
 app.put('/carros/:id', (req, res) => {
   const id = parseInt(req.params.id);
